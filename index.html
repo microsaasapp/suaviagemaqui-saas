@@ -289,12 +289,23 @@
             document.body.style.overflow = 'hidden'; // Trava o scroll da página
         };
         const closeModal = (modal) => {
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto'; // Destrava o scroll da página
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+            document.body.style.overflow = 'auto'; // Sempre destrava o scroll da página
         };
         
         document.querySelectorAll('.modal-close-btn').forEach(btn => {
             btn.addEventListener('click', () => closeModal(btn.closest('.modal-backdrop')));
+        });
+
+        // Adicionando a lógica de fechar ao clicar no fundo
+        document.querySelectorAll('.modal-backdrop').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal);
+                }
+            });
         });
 
         // --- LÓGICA DE AUTENTICAÇÃO ---
