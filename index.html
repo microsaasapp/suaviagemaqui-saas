@@ -131,6 +131,50 @@
                     <p>Carregando excursões...</p>
                 </div>
 
+                <!-- Seção de Agências Premium -->
+                <section class="mt-16">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Agências Premium em Destaque</h2>
+                    <p class="text-center text-gray-600 mb-8">Confira as agências que oferecem as melhores experiências na nossa plataforma.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Janela Agência 1 -->
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="h-40 bg-cover bg-center" style="background-image: url('https://placehold.co/500x300/1d4ed8/ffffff?text=Aventura+Tour')"></div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-bold text-gray-900">Aventura Tour</h3>
+                                <p class="text-sm text-gray-600 mt-2">Especialistas em ecoturismo e trilhas.</p>
+                                <button class="mt-4 bg-cvc-blue text-white font-bold py-2 px-6 rounded-full hover:bg-cvc-blue-dark transition duration-300">Ver Pacotes</button>
+                            </div>
+                        </div>
+                        <!-- Janela Agência 2 -->
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="h-40 bg-cover bg-center" style="background-image: url('https://placehold.co/500x300/059669/ffffff?text=PraiaTur')"></div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-bold text-gray-900">PraiaTur</h3>
+                                <p class="text-sm text-gray-600 mt-2">Os melhores destinos de praia do Brasil.</p>
+                                <button class="mt-4 bg-cvc-blue text-white font-bold py-2 px-6 rounded-full hover:bg-cvc-blue-dark transition duration-300">Ver Pacotes</button>
+                            </div>
+                        </div>
+                        <!-- Janela Agência 3 -->
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="h-40 bg-cover bg-center" style="background-image: url('https://placehold.co/500x300/7c3aed/ffffff?text=Trip+da+Serra')"></div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-bold text-gray-900">Trip da Serra</h3>
+                                <p class="text-sm text-gray-600 mt-2">Viagens românticas e gastronômicas.</p>
+                                <button class="mt-4 bg-cvc-blue text-white font-bold py-2 px-6 rounded-full hover:bg-cvc-blue-dark transition duration-300">Ver Pacotes</button>
+                            </div>
+                        </div>
+                        <!-- Janela Agência 4 -->
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
+                            <div class="h-40 bg-cover bg-center" style="background-image: url('https://placehold.co/500x300/db2777/ffffff?text=Eco+Viagens')"></div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-bold text-gray-900">Eco Viagens</h3>
+                                <p class="text-sm text-gray-600 mt-2">Imersão total na natureza com conforto.</p>
+                                <button class="mt-4 bg-cvc-blue text-white font-bold py-2 px-6 rounded-full hover:bg-cvc-blue-dark transition duration-300">Ver Pacotes</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Banner de Cadastro para Agências -->
                 <section id="agency-signup-banner" class="mt-16 bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-between">
                     <div>
@@ -363,8 +407,15 @@
                 </div>
                 <div id="agency-toggle-field" class="mb-4 hidden">
                     <label class="flex items-center">
-                        <input type="checkbox" name="is_agency" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                        <input type="checkbox" id="is-agency-checkbox" name="is_agency" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                         <span class="ml-2 text-sm text-gray-600">Quero me cadastrar como agência</span>
+                    </label>
+                </div>
+                <!-- Campo de Aceite dos Termos -->
+                <div id="terms-agreement-field" class="mb-6 hidden">
+                     <label class="flex items-center">
+                        <input type="checkbox" id="terms-agree-checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm">
+                        <span class="ml-2 text-sm text-gray-600">Eu li e concordo com os <a href="#" id="open-contract-link" class="text-blue-600 hover:underline">Termos de Serviço</a>.</span>
                     </label>
                 </div>
                 <button type="submit" id="auth-form-submit" class="w-full bg-cvc-blue text-white font-bold py-3 px-4 rounded-lg hover:bg-cvc-blue-dark transition duration-300">Entrar</button>
@@ -376,8 +427,49 @@
         </div>
     </div>
 
+    <!-- Modal do Contrato -->
+    <div id="contract-modal" class="modal-backdrop hidden">
+        <div class="bg-white w-full max-w-3xl p-8 rounded-lg shadow-xl modal-content relative">
+            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-gray-800"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <h2 class="text-2xl font-bold mb-4 text-center">CONTRATO DE PRESTAÇÃO DE SERVIÇO POR ASSINATURA</h2>
+            <div class="prose max-w-none text-sm text-gray-700">
+                <p><strong>Pelo presente instrumento particular, de um lado, SUA VIAGEM AQUI</strong>, pessoa jurídica responsável pela gestão da plataforma digital de conexão entre operadoras de turismo e viajantes, doravante denominada PLATAFORMA, e de outro, o <strong>ASSINANTE</strong>, pessoa física ou jurídica que aderir aos planos disponibilizados, têm entre si justo e contratado o seguinte:</p>
+                
+                <h3 class="font-bold mt-4">1. OBJETO</h3>
+                <p>1.1. O presente contrato tem por objeto a prestação, pela PLATAFORMA, de serviços digitais de divulgação e intermediação comercial, conectando operadoras de turismo (ASSINANTES) a viajantes (usuários finais) por meio de seu aplicativo e site.</p>
+                <p>1.2. A PLATAFORMA disponibiliza diferentes planos de assinatura com funcionalidades específicas para divulgação e geração de contatos comerciais entre operadoras e viajantes.</p>
+
+                <h3 class="font-bold mt-4">2. PLANOS DE SERVIÇO</h3>
+                <p>A PLATAFORMA oferece três modalidades de planos:</p>
+                <p><strong>2.1. Plano OURO (Premium)</strong><br>Duração: 12 (doze) meses, com renovação automática.<br>Destaque: O ASSINANTE será exibido no carrossel de imagens da plataforma a cada 5 segundos, com prioridade de visibilidade.<br>Funcionalidades adicionais: Notificações de ações dos viajantes, acesso a ferramentas promocionais e exibição destacada em pesquisas.<br>Cancelamento: Pode ser solicitado mediante aviso com antecedência mínima de 30 (trinta) dias do vencimento.</p>
+                <p><strong>2.2. Plano PRATA (Básico)</strong><br>Duração: 6 (seis) meses.<br>Renovação: Exige aceite manual diretamente no aplicativo ou site.<br>Destaque: Não participa do carrossel de imagens. Pode ser encontrado por nome da empresa ou categoria de atuação.<br>Funcionalidades: Acesso ao painel de reservas e contato com viajantes.</p>
+                <p><strong>2.3. Plano BRONZE (Gratuito/Teste)</strong><br>Duração: 30 (trinta) dias.<br>Objetivo: Permitir ao ASSINANTE testar as funcionalidades da PLATAFORMA.<br>Destaque: Não há exibição no carrossel ou destaque nas buscas.<br>Limitações: Acesso restrito a determinadas ferramentas promocionais.</p>
+
+                <h3 class="font-bold mt-4">5. REPASSE DE COMISSÃO</h3>
+                <p>5.1. A cada compra ou reserva realizada através da PLATAFORMA (inclusive quando o fechamento ocorrer fora dela, após o redirecionamento), será gerado automaticamente um aviso para o ASSINANTE informando a origem da venda.</p>
+                <p>5.2. O ASSINANTE compromete-se a repassar à PLATAFORMA uma comissão de 5% (cinco por cento) sobre o valor total pago pelo viajante.</p>
+                <p>5.3. O repasse deverá ser feito no prazo máximo de 10 (dez) dias úteis após o recebimento do valor pelo ASSINANTE, por meio de conta bancária ou sistema de pagamento indicado pela PLATAFORMA.</p>
+
+                <h3 class="font-bold mt-4">12. ACEITE DIGITAL</h3>
+                <p>Ao aderir a qualquer plano da PLATAFORMA, o ASSINANTE declara que leu, entendeu e concorda integralmente com os termos deste contrato, cujo aceite se dá de forma digital, por meio do aplicativo ou website oficial.</p>
+            </div>
+            <div class="text-center mt-6">
+                <button class="modal-close-btn bg-cvc-blue text-white font-bold py-2 px-8 rounded-lg">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes do Pacote -->
+    <div id="package-detail-modal" class="modal-backdrop hidden">
+        <div class="bg-white w-full max-w-4xl rounded-lg shadow-xl modal-content">
+            <div id="package-detail-content">
+                <!-- Conteúdo dinâmico do pacote será inserido aqui -->
+            </div>
+        </div>
+    </div>
+
     <!-- Modal de Cadastro/Edição de Pacote -->
-    <div id="package-modal" class="modal-backdrop hidden"><div class="bg-white w-full max-w-3xl p-8 rounded-lg shadow-xl modal-content"><h2 id="package-modal-title" class="text-2xl font-bold mb-6">Cadastrar Novo Pacote</h2><form id="package-form"><input type="hidden" name="id"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Nome do Pacote</label><input type="text" name="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Preço por Pessoa (R$)</label><input type="number" name="price" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Vagas Totais</label><input type="number" name="total_slots" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Data de Início</label><input type="date" name="start_date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div><label class="block text-sm font-medium text-gray-700">Data de Fim</label><input type="date" name="end_date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Descrição Curta</label><textarea name="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">URL da Imagem Principal</label><input type="text" name="image_url" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="https://placehold.co/..."></div></div><div class="mt-8 flex justify-end gap-4"><button type="button" class="modal-close-btn px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button><button type="submit" class="px-6 py-2 bg-cvc-blue text-white font-bold rounded-lg hover:bg-cvc-blue-dark">Salvar Pacote</button></div></form></div></div>
+    <div id="package-modal" class="modal-backdrop hidden"><div class="bg-white w-full max-w-3xl p-8 rounded-lg shadow-xl modal-content"><h2 id="package-modal-title" class="text-2xl font-bold mb-6">Cadastrar Novo Pacote</h2><form id="package-form"><input type="hidden" name="id"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Nome do Pacote</label><input type="text" name="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Preço por Pessoa (R$)</label><input type="number" name="price" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Vagas Totais</label><input type="number" name="total_slots" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Data de Início</label><input type="date" name="start_date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div><label class="block text-sm font-medium text-gray-700">Horário de Início</label><input type="time" name="start_time" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Local de Embarque</label><input type="text" name="boarding_location" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Documentos Necessários</label><textarea name="required_documents" rows="2" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Mais Informações</label><textarea name="additional_info" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">URL da Imagem Principal</label><input type="text" name="image_url" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="https://placehold.co/..."></div></div><div class="mt-8 flex justify-end gap-4"><button type="button" class="modal-close-btn px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button><button type="submit" class="px-6 py-2 bg-cvc-blue text-white font-bold rounded-lg hover:bg-cvc-blue-dark">Salvar Pacote</button></div></form></div></div>
 
     <!-- Modal de Checkout -->
     <div id="checkout-modal" class="modal-backdrop hidden"><div class="bg-white w-full max-w-lg p-8 rounded-lg shadow-xl modal-content"><h2 class="text-2xl font-bold mb-6">Finalizar Reserva</h2><div id="checkout-summary"></div><p class="text-xs text-gray-500 mt-4 text-center">O pagamento é processado de forma segura pelo Stripe. Ao clicar em "Pagar com Cartão", você será redirecionado.</p><div class="mt-8 flex justify-end gap-4"><button type="button" class="modal-close-btn px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button><button id="pay-btn" class="px-6 py-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600">Pagar com Cartão</button></div></div></div>
@@ -413,6 +505,7 @@
 
         let currentUser = null;
         let isLoginMode = true; // Controla se o modal de auth está em modo Login ou Cadastro
+        let allPackages = []; // Cache para todos os pacotes
 
         // Elementos da UI
         const authBtn = document.getElementById('auth-btn');
@@ -426,11 +519,18 @@
         const authToggleLink = document.getElementById('auth-toggle-link');
         const fullnameField = document.getElementById('fullname-field');
         const agencyToggleField = document.getElementById('agency-toggle-field');
+        const termsAgreementField = document.getElementById('terms-agreement-field');
+        const isAgencyCheckbox = document.getElementById('is-agency-checkbox');
+        const termsAgreeCheckbox = document.getElementById('terms-agree-checkbox');
+        const openContractLink = document.getElementById('open-contract-link');
+        const contractModal = document.getElementById('contract-modal');
         const packagesList = document.getElementById('packages-list');
         const agencyPackagesList = document.getElementById('agency-packages-list');
         const addPackageBtn = document.getElementById('add-package-btn');
         const packageModal = document.getElementById('package-modal');
         const packageForm = document.getElementById('package-form');
+        const packageDetailModal = document.getElementById('package-detail-modal');
+        const packageDetailContent = document.getElementById('package-detail-content');
         const checkoutModal = document.getElementById('checkout-modal');
         const payBtn = document.getElementById('pay-btn');
         const agencyDashboardLoggedIn = document.getElementById('agency-dashboard-logged-in');
@@ -464,6 +564,12 @@
                 }
             });
         });
+        
+        const formatDate = (dateString) => {
+            if (!dateString) return 'N/A';
+            const [year, month, day] = dateString.split('-');
+            return `${day}/${month}/${year}`;
+        };
 
         // --- LÓGICA DE AUTENTICAÇÃO ---
         const checkUser = async () => {
@@ -513,6 +619,11 @@
             isLoginMode = !isLoginMode;
             toggleAuthMode();
         });
+        
+        openContractLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal(contractModal);
+        });
 
         const toggleAuthMode = () => {
             authModalTitle.textContent = isLoginMode ? 'Acessar Painel' : 'Criar Nova Conta';
@@ -521,7 +632,22 @@
             authToggleLink.textContent = isLoginMode ? 'Cadastre-se' : 'Entrar';
             fullnameField.classList.toggle('hidden', isLoginMode);
             agencyToggleField.classList.toggle('hidden', isLoginMode);
+            termsAgreementField.classList.add('hidden'); // Sempre esconde ao trocar
+            authFormSubmit.disabled = false; // Habilita o botão por padrão no modo login
         };
+        
+        const checkAgencySignupState = () => {
+            if (!isLoginMode && isAgencyCheckbox.checked) {
+                termsAgreementField.classList.remove('hidden');
+                authFormSubmit.disabled = !termsAgreeCheckbox.checked;
+            } else {
+                termsAgreementField.classList.add('hidden');
+                authFormSubmit.disabled = false;
+            }
+        };
+        
+        isAgencyCheckbox.addEventListener('change', checkAgencySignupState);
+        termsAgreeCheckbox.addEventListener('change', checkAgencySignupState);
 
         authForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -556,6 +682,7 @@
         document.getElementById('signup-banner-btn').addEventListener('click', () => {
              isLoginMode = false;
              toggleAuthMode();
+             checkAgencySignupState();
              openModal(authModal);
         });
 
@@ -567,7 +694,8 @@
                 packagesList.innerHTML = '<p class="text-red-500">Não foi possível carregar as excursões.</p>';
                 return;
             }
-            renderPackages(data);
+            allPackages = data; // Armazena os pacotes no cache
+            renderPackages(allPackages);
         };
 
         const renderPackages = (packages) => {
@@ -588,25 +716,63 @@
                             <p class="text-2xl font-extrabold cvc-blue">R$ ${pkg.price}</p>
                             <p class="text-xs text-gray-600">por pessoa</p>
                         </div>
-                        <button data-package-id="${pkg.id}" class="buy-package-btn mt-4 w-full bg-cvc-blue text-white font-bold py-3 px-4 rounded-lg hover:bg-cvc-blue-dark transition duration-300">Conferir</button>
+                        <button data-package-id="${pkg.id}" class="view-package-btn mt-4 w-full bg-cvc-blue text-white font-bold py-3 px-4 rounded-lg hover:bg-cvc-blue-dark transition duration-300">Conferir</button>
                     </div>
                 `;
                 packagesList.appendChild(card);
             });
-            document.querySelectorAll('.buy-package-btn').forEach(btn => {
+            document.querySelectorAll('.view-package-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const packageId = btn.dataset.packageId;
-                    const selectedPackage = packages.find(p => p.id == parseInt(packageId));
-                    if (!selectedPackage) {
-                        alert("Erro: Não foi possível encontrar os detalhes deste pacote. Tente novamente.");
-                        return;
-                    }
-                    currentPackageForCheckout = selectedPackage;
-                    openCheckoutModal(selectedPackage);
+                    const selectedPackage = allPackages.find(p => p.id == parseInt(packageId));
+                    openPackageDetailModal(selectedPackage);
                 });
             });
         };
         
+        const openPackageDetailModal = (pkg) => {
+            if (!pkg) {
+                alert("Erro: Pacote não encontrado.");
+                return;
+            }
+             packageDetailContent.innerHTML = `
+                <div class="relative">
+                    <img src="${pkg.image_url || 'https://placehold.co/800x400/cccccc/ffffff?text=Sem+Imagem'}" class="w-full h-64 object-cover rounded-t-lg">
+                    <button class="modal-close-btn absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-75"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="p-8">
+                    <h2 class="text-4xl font-extrabold text-gray-900">${pkg.name}</h2>
+                    <div class="mt-6 flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div class="text-left">
+                            <p class="text-lg text-gray-600">Preço por pessoa</p>
+                            <p class="text-5xl font-extrabold cvc-blue">R$ ${pkg.price}</p>
+                        </div>
+                        <div class="mt-4 md:mt-0 flex flex-col md:flex-row gap-3">
+                            <button data-package-id="${pkg.id}" class="buy-package-btn px-8 py-3 bg-cvc-yellow text-gray-900 font-bold rounded-lg hover:bg-cvc-yellow-dark">Compre Agora</button>
+                        </div>
+                    </div>
+                    <div class="mt-8 border-t pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+                        <div><i class="fa-solid fa-calendar-alt mr-2 text-blue-500"></i><strong>Data:</strong> ${formatDate(pkg.start_date)}</div>
+                        <div><i class="fa-solid fa-clock mr-2 text-blue-500"></i><strong>Horário:</strong> ${pkg.start_time || 'N/A'}</div>
+                        <div class="md:col-span-2"><i class="fa-solid fa-map-marker-alt mr-2 text-blue-500"></i><strong>Local de Embarque:</strong> ${pkg.boarding_location || 'A combinar'}</div>
+                        <div class="md:col-span-2"><i class="fa-solid fa-id-card mr-2 text-blue-500"></i><strong>Documentos:</strong> ${pkg.required_documents || 'Documento de identidade com foto.'}</div>
+                        <div class="md:col-span-2 mt-4">
+                            <h3 class="text-xl font-bold mb-2">Mais Informações</h3>
+                            <p class="whitespace-pre-wrap">${pkg.additional_info || 'Nenhuma informação adicional fornecida.'}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            // Re-adiciona o listener do botão de compra, pois o conteúdo foi recriado
+            packageDetailContent.querySelector('.buy-package-btn').addEventListener('click', () => {
+                 currentPackageForCheckout = pkg;
+                 openCheckoutModal(pkg);
+            });
+            // Adiciona o listener para o botão de fechar recriado
+            packageDetailContent.querySelector('.modal-close-btn').addEventListener('click', () => closeModal(packageDetailModal));
+            openModal(packageDetailModal);
+        };
+
         const openCheckoutModal = (pkg) => {
             const summary = document.getElementById('checkout-summary');
             summary.innerHTML = `
@@ -663,7 +829,8 @@
             if (error) return alert('Erro ao salvar pacote: ' + error.message);
             alert('Pacote salvo com sucesso!');
             closeModal(packageModal);
-            fetchAgencyPackages();
+            fetchAllPackages(); // Atualiza a lista principal
+            fetchAgencyPackages(); // Atualiza o painel da agência
         });
 
         // --- LÓGICA DE PAGAMENTO (STRIPE) ---
