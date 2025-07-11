@@ -231,72 +231,309 @@
     <div id="checkout-modal" class="modal-backdrop hidden"><div class="bg-white w-full max-w-lg p-8 rounded-lg shadow-xl modal-content"><h2 class="text-2xl font-bold mb-6">Finalizar Reserva</h2><div id="checkout-summary"></div><p class="text-xs text-gray-500 mt-4 text-center">O pagamento é processado de forma segura pelo Stripe. Ao clicar em "Pagar com Cartão", você será redirecionado.</p><div class="mt-8 flex justify-end gap-4"><button type="button" class="modal-close-btn px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button><button id="pay-btn" class="px-6 py-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600">Pagar com Cartão</button></div></div></div>
 
     <script>
-       // =================================================================================
-// == 1. CONFIGURAÇÃO INICIAL: INSIRA SUAS CHAVES AQUI ============================
-// =================================================================================
-const SUPABASE_URL = 'https://sddrlehtbzktenktvlbc.supabase.co'; // <-- VERIFIQUE SE ESTA É SUA URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1Ni...'; // <-- VERIFIQUE SE ESTA É SUA CHAVE
-const STRIPE_PUBLISHABLE_KEY = 'pk_test_51Rj3m5...'; // <-- VERIFIQUE SE ESTA É SUA CHAVE
-// ================================================================================= 
+    document.addEventListener('DOMContentLoaded', async () => {
+        // =================================================================================
+        // == 1. CONFIGURAÇÃO INICIAL: INSIRA SUAS CHAVES AQUI ============================
+        // =================================================================================
+        const SUPABASE_URL = 'https://sddrlehtbzktenktvlbc.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNkZHJsZWh0YnprdGVua3R2bGJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTIwNzY0MTIsImV4cCI6MjA2NzY1MjQxMn0.77LQtN3V1yGYrFj7E4lgH20d1HIFo9cHVubRMKBKTQ4';
+        const STRIPE_PUBLISHABLE_KEY = 'pk_test_51Rj3m5QJ6C8T4wjuQkobuZ7NDfNdex19WYydndyKqyyX37xc1oJafZ3N0pF72ZEszAzCzLkQSPYDD9he6lhBmfyU00jXBcDPo9';
+        // =================================================================================
+
+        // FIX: Adicionada verificação para garantir que as chaves foram substituídas
+        if (SUPABASE_URL === 'SUA_URL_DO_SUPABASE' || SUPABASE_ANON_KEY === 'SUA_CHAVE_ANON_DO_SUPABASE') {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'config-error-overlay';
+            errorDiv.innerHTML = `
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-8 rounded-lg shadow-lg text-center">
+                    <h2 class="font-bold text-2xl mb-4">Erro de Configuração</h2>
+                    <p>As chaves de API do Supabase não foram definidas no código.</p>
+                    <p class="mt-2">Por favor, edite o arquivo HTML, encontre a seção de configuração no script e substitua os valores de <strong>SUPABASE_URL</strong> e <strong>SUPABASE_ANON_KEY</strong> pelas suas chaves reais.</p>
+                </div>
+            `;
+            document.body.appendChild(errorDiv);
+            return; // Interrompe a execução do script para evitar mais erros
+        }
+
+        const { createClient } = supabase;
+        const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+
+        let currentUser = null;
+        let isLoginMode = true; // Controla se o modal de auth está em modo Login ou Cadastro
+
+        // Elementos da UI
+        const authBtn = document.getElementById('auth-btn');
+        const authBtnText = document.getElementById('auth-btn-text');
+        const logoutBtn = document.getElementById('logout-btn');
+        const authModal = document.getElementById('auth-modal');
+        const authForm = document.getElementById('auth-form');
+        const authModalTitle = document.getElementById('auth-modal-title');
+        const authFormSubmit = document.getElementById('auth-form-submit');
+        const authToggleText = document.getElementById('auth-toggle-text');
+        const authToggleLink = document.getElementById('auth-toggle-link');
+        const fullnameField = document.getElementById('fullname-field');
+        const agencyToggleField = document.getElementById('agency-toggle-field');
+        const packagesList = document.getElementById('packages-list');
+        const agencyPackagesList = document.getElementById('agency-packages-list');
+        const addPackageBtn = document.getElementById('add-package-btn');
+        const packageModal = document.getElementById('package-modal');
+        const packageForm = document.getElementById('package-form');
+        const checkoutModal = document.getElementById('checkout-modal');
+        const payBtn = document.getElementById('pay-btn');
+        let currentPackageForCheckout = null;
+
+        // --- FUNÇÕES GERAIS ---
+        const openModal = (modal) => modal.classList.remove('hidden');
+        const closeModal = (modal) => modal.classList.add('hidden');
+        document.querySelectorAll('.modal-close-btn').forEach(btn => {
+            btn.addEventListener('click', () => btn.closest('.modal-backdrop').classList.add('hidden'));
+        });
+
+        // --- LÓGICA DE AUTENTICAÇÃO ---
+        const checkUser = async () => {
+            const { data: { session } } = await db.auth.getSession();
+            currentUser = session?.user || null;
+            updateUIBasedOnAuthState();
+            if (currentUser) {
+                fetchAgencyPackages();
+            }
+        };
+
+        const updateUIBasedOnAuthState = () => {
+            if (currentUser) {
+                authBtn.classList.remove('hidden');
+                authBtnText.textContent = 'Painel';
+                logoutBtn.classList.remove('hidden');
+            } else {
+                authBtn.classList.remove('hidden');
+                authBtnText.textContent = 'Entrar';
+                logoutBtn.classList.add('hidden');
+            }
+        };
+
+        authBtn.addEventListener('click', () => {
+            if (!currentUser) {
+                isLoginMode = true;
+                toggleAuthMode();
+                openModal(authModal);
+            } else {
+                // Se já estiver logado, o botão leva para o painel
+                document.getElementById('tab-agencies').click();
+            }
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            await db.auth.signOut();
+            location.reload(); // Recarrega a página para limpar o estado
+        });
+
+        authToggleLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            isLoginMode = !isLoginMode;
+            toggleAuthMode();
+        });
+
+        const toggleAuthMode = () => {
+            authModalTitle.textContent = isLoginMode ? 'Acessar Painel' : 'Criar Nova Conta';
+            authFormSubmit.textContent = isLoginMode ? 'Entrar' : 'Cadastrar';
+            authToggleText.textContent = isLoginMode ? 'Não tem conta?' : 'Já tem uma conta?';
+            authToggleLink.textContent = isLoginMode ? 'Cadastre-se' : 'Entrar';
+            fullnameField.classList.toggle('hidden', isLoginMode);
+            agencyToggleField.classList.toggle('hidden', isLoginMode);
+        };
+
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const email = formData.get('email');
+            const password = formData.get('password');
+
+            if (isLoginMode) {
+                // Modo Login
+                const { error } = await db.auth.signInWithPassword({ email, password });
+                if (error) return alert('Erro no login: ' + error.message);
+                alert('Login realizado com sucesso!');
+            } else {
+                // Modo Cadastro
+                const fullName = formData.get('full_name');
+                const isAgency = formData.get('is_agency') === 'on';
+                const { error } = await db.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            full_name: fullName,
+                            is_agency: isAgency
+                        }
+                    }
+                });
+                if (error) return alert('Erro no cadastro: ' + error.message);
+                alert('Conta criada! Verifique seu e-mail para confirmação.');
+            }
+            closeModal(authModal);
+            location.reload();
+        });
+
+        // --- LÓGICA DE PACOTES ---
+        const fetchAllPackages = async () => {
+            const { data, error } = await db.from('packages').select('*');
+            if (error) {
+                console.error('Erro ao buscar pacotes:', error);
+                packagesList.innerHTML = '<p class="text-red-500">Não foi possível carregar as excursões.</p>';
+                return;
+            }
+            renderPackages(data);
+        };
+
+        const renderPackages = (packages) => {
+            packagesList.innerHTML = '';
+            if (packages.length === 0) {
+                packagesList.innerHTML = '<p>Nenhuma excursão encontrada no momento.</p>';
+                return;
+            }
+            packages.forEach(pkg => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-lg shadow-lg overflow-hidden flex flex-col group';
+                card.innerHTML = `
+                    <img src="${pkg.image_url || 'https://placehold.co/400x250/cccccc/ffffff?text=Sem+Imagem'}" alt="${pkg.name}" class="w-full h-48 object-cover">
+                    <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="text-lg font-bold text-gray-900 mt-1 mb-4 flex-grow">${pkg.name}</h3>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-600">a partir de</p>
+                            <p class="text-2xl font-extrabold cvc-blue">R$ ${pkg.price}</p>
+                            <p class="text-xs text-gray-600">por pessoa</p>
+                        </div>
+                        <button data-package-id="${pkg.id}" class="buy-package-btn mt-4 w-full bg-cvc-blue text-white font-bold py-3 px-4 rounded-lg hover:bg-cvc-blue-dark transition duration-300">Conferir</button>
+                    </div>
+                `;
+                packagesList.appendChild(card);
+            });
+            document.querySelectorAll('.buy-package-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const packageId = btn.dataset.packageId;
+                    const selectedPackage = packages.find(p => p.id == packageId);
+                    currentPackageForCheckout = selectedPackage;
+                    openCheckoutModal(selectedPackage);
+                });
+            });
+        };
+        
+        const openCheckoutModal = (pkg) => {
+            const summary = document.getElementById('checkout-summary');
+            summary.innerHTML = `
+                <h3 class="font-bold">Resumo do Pedido</h3>
+                <div class="flex justify-between mt-2"><p>1x ${pkg.name}</p><p class="font-bold">R$ ${pkg.price}</p></div>
+                <div class="flex justify-between mt-2 font-bold text-lg border-t pt-2"><p>Total</p><p>R$ ${pkg.price}</p></div>
+            `;
+            openModal(checkoutModal);
+        };
+
+        const fetchAgencyPackages = async () => {
+            if (!currentUser) return;
+            const { data, error } = await db.from('packages').select('*').eq('agency_id', currentUser.id);
+            if (error) return console.error('Erro ao buscar pacotes da agência:', error);
+            
+            agencyPackagesList.innerHTML = '';
+            data.forEach(pkg => {
+                const row = document.createElement('tr');
+                row.className = 'bg-white border-b';
+                row.innerHTML = `
+                    <td class="px-6 py-4 font-medium text-gray-900">${pkg.name}</td>
+                    <td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Ativo</span></td>
+                    <td class="px-6 py-4">R$ ${pkg.price}</td>
+                    <td class="px-6 py-4 text-right"><button data-package-id="${pkg.id}" class="manage-package-btn font-medium text-blue-600 hover:underline">Gerenciar</button></td>
+                `;
+                agencyPackagesList.appendChild(row);
+            });
+        };
+
+        addPackageBtn.addEventListener('click', () => {
+            if (!currentUser) return alert('Faça login como agência para cadastrar pacotes.');
+            packageForm.reset();
+            packageForm.id.value = '';
+            document.getElementById('package-modal-title').textContent = 'Cadastrar Novo Pacote';
+            openModal(packageModal);
+        });
+
+        packageForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return alert('Você precisa estar logado.');
+
+            const formData = new FormData(e.target);
+            const packageData = Object.fromEntries(formData.entries());
+            
+            let error;
+            if (packageData.id) { // Editando
+                ({ error } = await db.from('packages').update(packageData).eq('id', packageData.id));
+            } else { // Criando
+                delete packageData.id;
+                packageData.agency_id = currentUser.id;
+                ({ error } = await db.from('packages').insert(packageData));
+            }
+
+            if (error) return alert('Erro ao salvar pacote: ' + error.message);
+            alert('Pacote salvo com sucesso!');
+            closeModal(packageModal);
+            fetchAgencyPackages();
+        });
+
+        // --- LÓGICA DE PAGAMENTO (STRIPE) ---
+        payBtn.addEventListener('click', async () => {
+            if (STRIPE_PUBLISHABLE_KEY === 'SUA_CHAVE_PUBLICAVEL_DO_STRIPE') {
+                return alert('AVISO: A chave do Stripe não foi configurada. A função de pagamento está desabilitada.');
+            }
+            if (!currentPackageForCheckout) return;
+
+            try {
+                // A função /api/create-checkout-session precisa ser criada na Vercel
+                const response = await fetch('/api/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: currentPackageForCheckout.name,
+                        price: Math.round(currentPackageForCheckout.price * 100), // Preço em centavos
+                        quantity: 1,
+                        package_id: currentPackageForCheckout.id,
+                        user_id: currentUser?.id
+                    })
+                });
+
+                if (!response.ok) throw new Error('Falha na comunicação com o servidor.');
+
+                const { id: sessionId } = await response.json();
+                const { error } = await stripe.redirectToCheckout({ sessionId });
+                if (error) alert(error.message);
+
+            } catch (error) {
+                alert("Erro ao iniciar pagamento. Verifique se a função de back-end está configurada corretamente.");
+                console.error(error);
+            }
+        });
+
+        // --- LÓGICA DE BUSCA DE PARCEIROS ---
+        const partnerSearchInput = document.getElementById('partner-search');
+        const partnersGrid = document.getElementById('partners-grid');
+        const allPartners = partnersGrid.querySelectorAll('a'); // Get all partner links
+
+        partnerSearchInput.addEventListener('keyup', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            allPartners.forEach(partner => {
+                const partnerName = partner.dataset.partnerName.toLowerCase();
+                if (partnerName.includes(searchTerm)) {
+                    partner.style.display = 'block';
+                } else {
+                    partner.style.display = 'none';
+                }
+            });
+        });
+
+        // --- INICIALIZAÇÃO ---
+        checkUser();
+        fetchAllPackages();
+    });
     </script>
 
 </body>
 </html>
-```
-
-**Código 2: Para o arquivo `api/create-checkout-session.js`**
-
-
-```javascript
-// Este código deve estar no arquivo /api/create-checkout-session.js
-
-// Importa a biblioteca do Stripe. A Vercel a instalará automaticamente.
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
-module.exports = async (req, res) => {
-    // Permite que seu site (e não outros) acesse esta função
-    res.setHeader('Access-Control-Allow-Origin', process.env.VERCEL_URL);
-    res.setHeader('Access-Control-Allow-Methods', 'POST');
-    
-    if (req.method !== 'POST') {
-        res.setHeader('Allow', 'POST');
-        res.status(405).end('Method Not Allowed');
-        return;
-    }
-
-    try {
-        const { name, price, quantity, package_id, user_id } = req.body;
-
-        // Cria a Sessão de Checkout no Stripe
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: [
-                {
-                    price_data: {
-                        currency: 'brl',
-                        product_data: {
-                            name: name,
-                        },
-                        unit_amount: price, // Preço já deve vir em centavos
-                    },
-                    quantity: quantity,
-                },
-            ],
-            mode: 'payment',
-            // URLs para onde o cliente será redirecionado após o pagamento
-            success_url: `https://${req.headers.host}/?payment_success=true`,
-            cancel_url: `https://${req.headers.host}/?payment_canceled=true`,
-            // Metadados para sabermos qual reserva atualizar no banco de dados
-            metadata: {
-                package_id: package_id,
-                user_id: user_id,
-                slots_booked: quantity
-            }
-        });
-
-        res.status(200).json({ id: session.id });
-    } catch (err) {
-        console.error('Stripe Error:', err.message);
-        res.status(500).json({ statusCode: 500, message: err.message });
-    }
-};
