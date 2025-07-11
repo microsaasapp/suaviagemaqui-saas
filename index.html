@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -596,7 +596,11 @@
             document.querySelectorAll('.buy-package-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const packageId = btn.dataset.packageId;
-                    const selectedPackage = packages.find(p => p.id == packageId);
+                    const selectedPackage = packages.find(p => p.id == parseInt(packageId));
+                    if (!selectedPackage) {
+                        alert("Erro: Não foi possível encontrar os detalhes deste pacote. Tente novamente.");
+                        return;
+                    }
                     currentPackageForCheckout = selectedPackage;
                     openCheckoutModal(selectedPackage);
                 });
@@ -664,6 +668,12 @@
 
         // --- LÓGICA DE PAGAMENTO (STRIPE) ---
         payBtn.addEventListener('click', async () => {
+            if (!currentUser) {
+                closeModal(checkoutModal);
+                alert('Você precisa estar logado para fazer uma compra.');
+                openModal(authModal);
+                return;
+            }
             if (STRIPE_PUBLISHABLE_KEY === 'SUA_CHAVE_PUBLICAVEL_DO_STRIPE') {
                 return alert('AVISO: A chave do Stripe não foi configurada. A função de pagamento está desabilitada.');
             }
