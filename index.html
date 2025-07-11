@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -113,7 +113,7 @@
                     <i class="fa-solid fa-star mr-2"></i> Excursões e Ofertas
                 </button>
                 <button id="tab-agencies" data-tab="agencies" class="tab-button flex-1 text-center whitespace-nowrap py-4 px-1 border-b-4 font-medium text-sm sm:text-base">
-                    <i class="fa-solid fa-briefcase mr-2"></i> Painel da Agência
+                    <i class="fa-solid fa-briefcase mr-2"></i> Para Agências
                 </button>
                 <button id="tab-partners" data-tab="partners" class="tab-button flex-1 text-center whitespace-nowrap py-4 px-1 border-b-4 font-medium text-sm sm:text-base">
                     <i class="fa-solid fa-handshake mr-2"></i> Nossos Parceiros
@@ -130,42 +130,97 @@
                     <!-- Os pacotes do banco de dados serão inseridos aqui pelo JavaScript -->
                     <p>Carregando excursões...</p>
                 </div>
+
+                <!-- Banner de Cadastro para Agências -->
+                <section id="agency-signup-banner" class="mt-16 bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-extrabold">É uma agência de turismo?</h2>
+                        <p class="mt-2 text-lg text-blue-100">Alcance milhares de viajantes e gerencie suas excursões com facilidade. Cadastre-se agora!</p>
+                    </div>
+                    <button id="signup-banner-btn" class="mt-4 md:mt-0 bg-cvc-yellow text-gray-900 font-bold py-3 px-8 rounded-lg hover:bg-cvc-yellow-dark transition duration-300 whitespace-nowrap text-lg">
+                        Cadastre sua Agência Agora
+                    </button>
+                </section>
             </div>
 
             <!-- Aba 2: Painel da Agência -->
             <div id="content-agencies" class="tab-content-panel hidden bg-white p-6 rounded-lg shadow-md">
-                 <!-- Aviso do Plano Free -->
-                <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-8">
-                    <div class="flex">
-                        <div class="py-1"><i class="fa-solid fa-info-circle mr-3 text-2xl"></i></div>
-                        <div>
-                            <p class="font-bold">Você está no Plano Free!</p>
-                            <p class="text-sm">Seu plano atual permite o cadastro de até <strong>3 pacotes gratuitos</strong> e tem validade de <strong>30 dias</strong>. Faça o upgrade para o plano PRO para ter pacotes ilimitados, destaque nas buscas e muito mais!</p>
+                 <div id="agency-dashboard-logged-out" class="text-center">
+                    <h2 class="text-2xl font-bold mb-4">Planos para sua Agência Crescer</h2>
+                    <p class="text-gray-600 mb-8">Escolha o plano ideal e comece a vender mais.</p>
+                    <!-- Tabela de Preços -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                        <!-- Plano Bronze (Free) -->
+                        <div class="border rounded-lg p-6 flex flex-col">
+                            <h3 class="text-xl font-bold text-gray-500">Bronze</h3>
+                            <p class="text-4xl font-extrabold my-4">Grátis</p>
+                            <ul class="space-y-2 text-gray-600 text-left flex-grow">
+                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>3 Pacotes Ativos</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Validade de 30 dias</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Painel de Gerenciamento</li>
+                            </ul>
+                            <button class="mt-6 bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300">Comece Agora</button>
+                        </div>
+                        <!-- Plano Prata (Básico) -->
+                        <div class="border-2 border-blue-600 rounded-lg p-6 flex flex-col relative">
+                            <p class="absolute top-0 -translate-y-1/2 bg-blue-600 text-white text-sm font-bold px-3 py-1 rounded-full">MAIS POPULAR</p>
+                            <h3 class="text-xl font-bold text-blue-600">Prata</h3>
+                            <p class="text-4xl font-extrabold my-4">R$ 49<span class="text-lg font-medium">/mês</span></p>
+                            <ul class="space-y-2 text-gray-600 text-left flex-grow">
+                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>15 Pacotes Ativos</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Destaque nas Buscas</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Suporte por E-mail</li>
+                            </ul>
+                            <button class="mt-6 bg-cvc-blue text-white font-bold py-2 px-4 rounded-lg hover:bg-cvc-blue-dark">Assinar Agora</button>
+                        </div>
+                        <!-- Plano Ouro (Pro) -->
+                        <div class="border rounded-lg p-6 flex flex-col">
+                            <h3 class="text-xl font-bold text-yellow-500">Ouro</h3>
+                            <p class="text-4xl font-extrabold my-4">R$ 99<span class="text-lg font-medium">/mês</span></p>
+                            <ul class="space-y-2 text-gray-600 text-left flex-grow">
+                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Pacotes Ilimitados</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Destaque Máximo (PRO)</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Suporte Prioritário</li>
+                            </ul>
+                            <button class="mt-6 bg-cvc-yellow text-gray-900 font-bold py-2 px-4 rounded-lg hover:bg-cvc-yellow-dark">Assinar Agora</button>
                         </div>
                     </div>
-                </div>
-                 <!-- Gerenciamento de Excursões -->
-                <div class="mt-10">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-                        <h3 class="text-2xl font-bold">Seus Pacotes Cadastrados</h3>
-                        <button id="add-package-btn" class="mt-2 sm:mt-0 bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300 flex items-center gap-2"><i class="fa-solid fa-plus"></i><span>Cadastrar Novo Pacote</span></button>
+                 </div>
+                 <div id="agency-dashboard-logged-in" class="hidden">
+                    <!-- Aviso do Plano Free com Countdown -->
+                    <div id="plan-notice" class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-8">
+                        <div class="flex">
+                            <div class="py-1"><i class="fa-solid fa-info-circle mr-3 text-2xl"></i></div>
+                            <div>
+                                <p class="font-bold">Você está no Plano Bronze (Free)!</p>
+                                <p class="text-sm">Seu plano atual permite o cadastro de até <strong>3 pacotes gratuitos</strong>. Seu acesso expira em:</p>
+                                <div id="countdown-timer" class="text-lg font-bold text-red-600 mt-1">--:--:--:--</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">Pacote</th>
-                                    <th scope="col" class="px-6 py-3">Status</th>
-                                    <th scope="col" class="px-6 py-3">Preço</th>
-                                    <th scope="col" class="px-6 py-3 text-right">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="agency-packages-list">
-                                <!-- Pacotes da agência logada serão inseridos aqui -->
-                            </tbody>
-                        </table>
+                    <!-- Gerenciamento de Excursões -->
+                    <div class="mt-10">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+                            <h3 class="text-2xl font-bold">Seus Pacotes Cadastrados</h3>
+                            <button id="add-package-btn" class="mt-2 sm:mt-0 bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300 flex items-center gap-2"><i class="fa-solid fa-plus"></i><span>Cadastrar Novo Pacote</span></button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">Pacote</th>
+                                        <th scope="col" class="px-6 py-3">Status</th>
+                                        <th scope="col" class="px-6 py-3">Preço</th>
+                                        <th scope="col" class="px-6 py-3 text-right">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="agency-packages-list">
+                                    <!-- Pacotes da agência logada serão inseridos aqui -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                 </div>
             </div>
             
             <!-- Aba 3: Parceiros -->
@@ -229,7 +284,7 @@
     <!-- Seção de Parceiros Premium -->
     <section class="bg-white py-12 mt-16">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Nossos Parceiros Premium</h2>
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Nossos Parceiros Premium (Plano Ouro)</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Categoria Hotéis -->
                 <div>
@@ -378,6 +433,9 @@
         const packageForm = document.getElementById('package-form');
         const checkoutModal = document.getElementById('checkout-modal');
         const payBtn = document.getElementById('pay-btn');
+        const agencyDashboardLoggedIn = document.getElementById('agency-dashboard-logged-in');
+        const agencyDashboardLoggedOut = document.getElementById('agency-dashboard-logged-out');
+        const countdownTimerEl = document.getElementById('countdown-timer');
         let currentPackageForCheckout = null;
 
         // --- FUNÇÕES GERAIS ---
@@ -413,19 +471,25 @@
             currentUser = session?.user || null;
             updateUIBasedOnAuthState();
             if (currentUser) {
+                const { data: profile } = await db.from('profiles').select('is_agency').eq('id', currentUser.id).single();
+                if (profile?.is_agency) {
+                    initializeCountdown(currentUser);
+                }
                 fetchAgencyPackages();
             }
         };
 
         const updateUIBasedOnAuthState = () => {
             if (currentUser) {
-                authBtn.classList.remove('hidden');
                 authBtnText.textContent = 'Painel';
                 logoutBtn.classList.remove('hidden');
+                agencyDashboardLoggedOut.classList.add('hidden');
+                agencyDashboardLoggedIn.classList.remove('hidden');
             } else {
-                authBtn.classList.remove('hidden');
                 authBtnText.textContent = 'Entrar';
                 logoutBtn.classList.add('hidden');
+                agencyDashboardLoggedOut.classList.remove('hidden');
+                agencyDashboardLoggedIn.classList.add('hidden');
             }
         };
 
@@ -487,6 +551,12 @@
             }
             closeModal(authModal);
             location.reload();
+        });
+        
+        document.getElementById('signup-banner-btn').addEventListener('click', () => {
+             isLoginMode = false;
+             toggleAuthMode();
+             openModal(authModal);
         });
 
         // --- LÓGICA DE PACOTES ---
@@ -639,3 +709,97 @@
                     partner.style.display = 'block';
                 } else {
                     partner.style.display = 'none';
+                }
+            });
+        });
+
+        // --- LÓGICA DAS ABAS (HEADER E PRINCIPAL) ---
+        const setupTabs = () => {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContentPanels = document.querySelectorAll('.tab-content-panel');
+            const headerLinks = {
+                'header-link-excursions': 'tab-excursions',
+                'header-link-agencies': 'tab-agencies',
+                'header-link-partners': 'tab-partners'
+            };
+
+            const activateTab = (tabButton) => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabButton.classList.add('active');
+                const tabName = tabButton.dataset.tab;
+                tabContentPanels.forEach(panel => {
+                    panel.classList.add('hidden');
+                });
+                document.getElementById(`content-${tabName}`).classList.remove('hidden');
+            };
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => activateTab(button));
+            });
+            
+            Object.keys(headerLinks).forEach(linkId => {
+                const linkElement = document.getElementById(linkId);
+                const tabId = headerLinks[linkId];
+                const tabElement = document.getElementById(tabId);
+                if (linkElement && tabElement) {
+                    linkElement.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        activateTab(tabElement);
+                    });
+                }
+            });
+        };
+        
+        // --- LÓGICA DO CARROSSEL DE PARCEIROS PREMIUM ---
+        const setupPartnerCarousels = () => {
+            const carousels = document.querySelectorAll('.partner-carousel');
+            carousels.forEach(carousel => {
+                const logos = carousel.querySelectorAll('.partner-logo');
+                if (logos.length <= 1) return; // Não inicia o carrossel se tiver 1 ou 0 logos
+
+                let currentIndex = 0;
+                setInterval(() => {
+                    logos[currentIndex].classList.remove('opacity-100');
+                    logos[currentIndex].classList.add('opacity-0');
+                    currentIndex = (currentIndex + 1) % logos.length;
+                    logos[currentIndex].classList.remove('opacity-0');
+                    logos[currentIndex].classList.add('opacity-100');
+                }, 5000); // Muda a cada 5 segundos
+            });
+        };
+
+        // --- LÓGICA DO COUNTDOWN ---
+        const initializeCountdown = (user) => {
+            if (!user || !user.created_at) return;
+            const expirationDate = new Date(user.created_at);
+            expirationDate.setDate(expirationDate.getDate() + 30);
+
+            const intervalId = setInterval(() => {
+                const now = new Date();
+                const timeLeft = expirationDate - now;
+
+                if (timeLeft < 0) {
+                    clearInterval(intervalId);
+                    countdownTimerEl.innerHTML = "Seu plano de teste expirou!";
+                    return;
+                }
+
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                countdownTimerEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            }, 1000);
+        };
+
+        // --- INICIALIZAÇÃO ---
+        checkUser();
+        fetchAllPackages();
+        setupTabs();
+        setupPartnerCarousels();
+    });
+    </script>
+
+</body>
+</html>
