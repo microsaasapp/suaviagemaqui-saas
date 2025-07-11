@@ -284,10 +284,17 @@
         let currentPackageForCheckout = null;
 
         // --- FUNÇÕES GERAIS ---
-        const openModal = (modal) => modal.classList.remove('hidden');
-        const closeModal = (modal) => modal.classList.add('hidden');
+        const openModal = (modal) => {
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Trava o scroll da página
+        };
+        const closeModal = (modal) => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Destrava o scroll da página
+        };
+        
         document.querySelectorAll('.modal-close-btn').forEach(btn => {
-            btn.addEventListener('click', () => btn.closest('.modal-backdrop').classList.add('hidden'));
+            btn.addEventListener('click', () => closeModal(btn.closest('.modal-backdrop')));
         });
 
         // --- LÓGICA DE AUTENTICAÇÃO ---
