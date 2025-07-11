@@ -134,6 +134,16 @@
 
             <!-- Aba 2: Painel da Agência -->
             <div id="content-agencies" class="tab-content-panel hidden bg-white p-6 rounded-lg shadow-md">
+                 <!-- Aviso do Plano Free -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-8">
+                    <div class="flex">
+                        <div class="py-1"><i class="fa-solid fa-info-circle mr-3 text-2xl"></i></div>
+                        <div>
+                            <p class="font-bold">Você está no Plano Free!</p>
+                            <p class="text-sm">Seu plano atual permite o cadastro de até <strong>3 pacotes gratuitos</strong> e tem validade de <strong>30 dias</strong>. Faça o upgrade para o plano PRO para ter pacotes ilimitados, destaque nas buscas e muito mais!</p>
+                        </div>
+                    </div>
+                </div>
                  <!-- Gerenciamento de Excursões -->
                 <div class="mt-10">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
@@ -216,8 +226,49 @@
         </div>
     </main>
 
+    <!-- Seção de Parceiros Premium -->
+    <section class="bg-white py-12 mt-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Nossos Parceiros Premium</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Categoria Hotéis -->
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-center"><i class="fa-solid fa-hotel mr-2 text-blue-500"></i>Hotéis</h3>
+                    <div class="partner-carousel h-24 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden relative p-2">
+                        <img src="https://placehold.co/150x60/1d4ed8/ffffff?text=Hotel+Plaza" alt="Logo Hotel Plaza" class="partner-logo absolute transition-opacity duration-700 opacity-100">
+                        <img src="https://placehold.co/150x60/059669/ffffff?text=Pousada+Vista" alt="Logo Pousada Vista" class="partner-logo absolute transition-opacity duration-700 opacity-0">
+                        <img src="https://placehold.co/150x60/7c3aed/ffffff?text=Resort+Paraíso" alt="Logo Resort Paraíso" class="partner-logo absolute transition-opacity duration-700 opacity-0">
+                    </div>
+                </div>
+                <!-- Categoria Restaurantes -->
+                <div>
+                     <h3 class="text-xl font-semibold mb-4 text-center"><i class="fa-solid fa-utensils mr-2 text-orange-500"></i>Restaurantes</h3>
+                     <div class="partner-carousel h-24 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden relative p-2">
+                        <img src="https://placehold.co/150x60/db2777/ffffff?text=Cantina+Nonna" alt="Logo Cantina Nonna" class="partner-logo absolute transition-opacity duration-700 opacity-100">
+                        <img src="https://placehold.co/150x60/f97316/ffffff?text=Sabor+do+Mar" alt="Logo Sabor do Mar" class="partner-logo absolute transition-opacity duration-700 opacity-0">
+                     </div>
+                </div>
+                <!-- Categoria Lojas -->
+                <div>
+                     <h3 class="text-xl font-semibold mb-4 text-center"><i class="fa-solid fa-store mr-2 text-purple-500"></i>Lojas e Acessórios</h3>
+                     <div class="partner-carousel h-24 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden relative p-2">
+                        <img src="https://placehold.co/150x60/64748b/ffffff?text=Aventura+Equip" alt="Logo Aventura Equip" class="partner-logo absolute transition-opacity duration-700 opacity-100">
+                        <img src="https://placehold.co/150x60/be123c/ffffff?text=Mochila+Certa" alt="Logo Mochila Certa" class="partner-logo absolute transition-opacity duration-700 opacity-0">
+                     </div>
+                </div>
+                <!-- Categoria Fotógrafos -->
+                <div>
+                     <h3 class="text-xl font-semibold mb-4 text-center"><i class="fa-solid fa-camera-retro mr-2 text-teal-500"></i>Fotógrafos</h3>
+                     <div class="partner-carousel h-24 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden relative p-2">
+                        <img src="https://placehold.co/150x60/16a34a/ffffff?text=Click+Perfeito" alt="Logo Click Perfeito" class="partner-logo absolute transition-opacity duration-700 opacity-100">
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Rodapé -->
-    <footer class="bg-gray-800 text-white mt-16">
+    <footer class="bg-gray-800 text-white">
         <div class="container mx-auto px-6 py-10">
             <div class="text-center mb-6">
                 <h3 class="text-2xl font-bold">SuaViagemaqui</h3>
@@ -588,53 +639,3 @@
                     partner.style.display = 'block';
                 } else {
                     partner.style.display = 'none';
-                }
-            });
-        });
-
-        // --- LÓGICA DAS ABAS (HEADER E PRINCIPAL) ---
-        const setupTabs = () => {
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const tabContentPanels = document.querySelectorAll('.tab-content-panel');
-            const headerLinks = {
-                'header-link-excursions': 'tab-excursions',
-                'header-link-agencies': 'tab-agencies',
-                'header-link-partners': 'tab-partners'
-            };
-
-            const activateTab = (tabButton) => {
-                tabButtons.forEach(btn => btn.classList.remove('active'));
-                tabButton.classList.add('active');
-                const tabName = tabButton.dataset.tab;
-                tabContentPanels.forEach(panel => {
-                    panel.classList.add('hidden');
-                });
-                document.getElementById(`content-${tabName}`).classList.remove('hidden');
-            };
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => activateTab(button));
-            });
-            
-            Object.keys(headerLinks).forEach(linkId => {
-                const linkElement = document.getElementById(linkId);
-                const tabId = headerLinks[linkId];
-                const tabElement = document.getElementById(tabId);
-                if (linkElement && tabElement) {
-                    linkElement.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        activateTab(tabElement);
-                    });
-                }
-            });
-        };
-
-        // --- INICIALIZAÇÃO ---
-        checkUser();
-        fetchAllPackages();
-        setupTabs();
-    });
-    </script>
-
-</body>
-</html>
