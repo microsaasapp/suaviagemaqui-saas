@@ -199,7 +199,7 @@
                             <h3 class="text-xl font-bold text-gray-500">Bronze</h3>
                             <p class="text-4xl font-extrabold my-4">Grátis</p>
                             <ul class="space-y-2 text-gray-600 text-left flex-grow">
-                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>3 Pacotes Ativos</li>
+                                <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>1 Pacote Gratuito</li>
                                 <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Validade de 30 dias</li>
                                 <li class="flex items-center"><i class="fa-solid fa-check text-green-500 mr-2"></i>Painel de Gerenciamento</li>
                             </ul>
@@ -237,7 +237,7 @@
                             <div class="py-1"><i class="fa-solid fa-info-circle mr-3 text-2xl"></i></div>
                             <div>
                                 <p class="font-bold">Você está no Plano Bronze (Free)!</p>
-                                <p class="text-sm">Seu plano atual permite o cadastro de até <strong>3 pacotes gratuitos</strong>. Seu acesso expira em:</p>
+                                <p class="text-sm">Seu plano atual permite o cadastro de <strong>1 pacote gratuito</strong>. Seu acesso expira em:</p>
                                 <div id="countdown-timer" class="text-lg font-bold text-red-600 mt-1">--:--:--:--</div>
                             </div>
                         </div>
@@ -473,6 +473,30 @@
 
     <!-- Modal de Checkout -->
     <div id="checkout-modal" class="modal-backdrop hidden"><div class="bg-white w-full max-w-lg p-8 rounded-lg shadow-xl modal-content"><h2 class="text-2xl font-bold mb-6">Finalizar Reserva</h2><div id="checkout-summary"></div><p class="text-xs text-gray-500 mt-4 text-center">O pagamento é processado de forma segura pelo Stripe. Ao clicar em "Pagar com Cartão", você será redirecionado.</p><div class="mt-8 flex justify-end gap-4"><button type="button" class="modal-close-btn px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button><button id="pay-btn" class="px-6 py-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600">Pagar com Cartão</button></div></div></div>
+    
+    <!-- Modal de Exclusão -->
+    <div id="delete-confirm-modal" class="modal-backdrop hidden">
+        <div class="bg-white w-full max-w-md p-8 rounded-lg shadow-xl">
+            <h2 class="text-xl font-bold text-center mb-4">Confirmar Exclusão</h2>
+            <p class="text-center text-gray-600 mb-6">Você tem certeza que deseja excluir o pacote "<span id="delete-package-name" class="font-semibold"></span>"? Esta ação não pode ser desfeita.</p>
+            <div class="flex justify-center gap-4">
+                <button id="cancel-delete-btn" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button>
+                <button id="confirm-delete-btn" class="px-6 py-2 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700">Sim, Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Estatísticas -->
+    <div id="stats-modal" class="modal-backdrop hidden">
+        <div class="bg-white w-full max-w-lg p-8 rounded-lg shadow-xl relative">
+            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-gray-800"><i class="fa-solid fa-xmark text-2xl"></i></button>
+            <h2 class="text-2xl font-bold mb-6">Estatísticas do Pacote</h2>
+            <div id="stats-content" class="space-y-4">
+                <!-- Conteúdo das estatísticas será inserido aqui -->
+            </div>
+        </div>
+    </div>
+
 
     <script>
     document.addEventListener('DOMContentLoaded', async () => {
@@ -506,6 +530,7 @@
         let currentUser = null;
         let isLoginMode = true; // Controla se o modal de auth está em modo Login ou Cadastro
         let allPackages = []; // Cache para todos os pacotes
+        let agencyPackages = []; // Cache para pacotes da agência logada
 
         // Elementos da UI
         const authBtn = document.getElementById('auth-btn');
@@ -536,6 +561,8 @@
         const agencyDashboardLoggedIn = document.getElementById('agency-dashboard-logged-in');
         const agencyDashboardLoggedOut = document.getElementById('agency-dashboard-logged-out');
         const countdownTimerEl = document.getElementById('countdown-timer');
+        const deleteConfirmModal = document.getElementById('delete-confirm-modal');
+        const statsModal = document.getElementById('stats-modal');
         let currentPackageForCheckout = null;
 
         // --- FUNÇÕES GERAIS ---
@@ -761,6 +788,14 @@
                             <p class="whitespace-pre-wrap">${pkg.additional_info || 'Nenhuma informação adicional fornecida.'}</p>
                         </div>
                     </div>
+                    <div class="mt-8 border-t pt-6 text-center">
+                        <h3 class="font-bold text-gray-800 mb-3">Gostou? Compartilhe!</h3>
+                        <div class="flex justify-center gap-4">
+                            <a href="https://api.whatsapp.com/send?text=${encodeURIComponent(`Olha que incrível essa viagem: ${pkg.name}! Saiba mais em ${window.location.href}`)}" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full bg-green-500 text-white text-2xl hover:bg-green-600"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full bg-blue-800 text-white text-2xl hover:bg-blue-900"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(`Olha que incrível essa viagem: ${pkg.name}!`)}" target="_blank" class="w-12 h-12 flex items-center justify-center rounded-full bg-blue-400 text-white text-2xl hover:bg-blue-500"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
                 </div>
             `;
             // Re-adiciona o listener do botão de compra, pois o conteúdo foi recriado
@@ -788,22 +823,119 @@
             const { data, error } = await db.from('packages').select('*').eq('agency_id', currentUser.id);
             if (error) return console.error('Erro ao buscar pacotes da agência:', error);
             
+            agencyPackages = data; // Cache dos pacotes da agência
             agencyPackagesList.innerHTML = '';
-            data.forEach(pkg => {
+            agencyPackages.forEach(pkg => {
                 const row = document.createElement('tr');
                 row.className = 'bg-white border-b';
                 row.innerHTML = `
                     <td class="px-6 py-4 font-medium text-gray-900">${pkg.name}</td>
                     <td class="px-6 py-4"><span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Ativo</span></td>
                     <td class="px-6 py-4">R$ ${pkg.price}</td>
-                    <td class="px-6 py-4 text-right"><button data-package-id="${pkg.id}" class="manage-package-btn font-medium text-blue-600 hover:underline">Gerenciar</button></td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="relative inline-block text-left">
+                            <button class="manage-package-btn font-medium text-blue-600 hover:underline">Gerenciar <i class="fas fa-chevron-down fa-xs ml-1"></i></button>
+                            <div class="manage-dropdown hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 ring-1 ring-black ring-opacity-5">
+                                <div class="py-1">
+                                    <a href="#" data-package-id="${pkg.id}" class="edit-package-btn block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Editar Pacote</a>
+                                    <a href="#" data-package-id="${pkg.id}" class="stats-package-btn block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Ver Estatísticas</a>
+                                    <a href="#" data-package-id="${pkg.id}" class="delete-package-btn block px-4 py-2 text-sm text-red-700 hover:bg-gray-100">Excluir Pacote</a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 `;
                 agencyPackagesList.appendChild(row);
             });
+            setupManageButtons();
         };
 
-        addPackageBtn.addEventListener('click', () => {
+        const setupManageButtons = () => {
+            document.querySelectorAll('.manage-package-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Fecha outros dropdowns abertos
+                    document.querySelectorAll('.manage-dropdown').forEach(d => d.classList.add('hidden'));
+                    // Abre o dropdown clicado
+                    const dropdown = button.nextElementSibling;
+                    dropdown.classList.toggle('hidden');
+                });
+            });
+
+            document.querySelectorAll('.edit-package-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pkgId = parseInt(btn.dataset.packageId);
+                    const pkg = agencyPackages.find(p => p.id === pkgId);
+                    if (!pkg) return alert('Pacote não encontrado.');
+                    
+                    // Preenche o formulário
+                    Object.keys(pkg).forEach(key => {
+                        if (packageForm.elements[key]) {
+                            packageForm.elements[key].value = pkg[key];
+                        }
+                    });
+
+                    document.getElementById('package-modal-title').textContent = 'Editar Pacote';
+                    openModal(packageModal);
+                });
+            });
+
+            document.querySelectorAll('.delete-package-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pkgId = parseInt(btn.dataset.packageId);
+                    const pkg = agencyPackages.find(p => p.id === pkgId);
+                    if (!pkg) return alert('Pacote não encontrado.');
+
+                    document.getElementById('delete-package-name').textContent = pkg.name;
+                    openModal(deleteConfirmModal);
+
+                    document.getElementById('confirm-delete-btn').onclick = async () => {
+                        const { error } = await db.from('packages').delete().eq('id', pkgId);
+                        if (error) return alert('Erro ao excluir pacote: ' + error.message);
+                        
+                        alert('Pacote excluído com sucesso!');
+                        closeModal(deleteConfirmModal);
+                        fetchAllPackages();
+                        fetchAgencyPackages();
+                    };
+                });
+            });
+            
+            document.querySelectorAll('.stats-package-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                     document.getElementById('stats-content').innerHTML = `
+                        <p><strong>Visualizações:</strong> 1,234</p>
+                        <p><strong>Cliques no "Comprar":</strong> 56</p>
+                        <p><strong>Taxa de Conversão:</strong> 4.54%</p>
+                        <p class="text-xs text-gray-500 mt-4">(Dados de exemplo. Funcionalidade em desenvolvimento)</p>
+                     `;
+                    openModal(statsModal);
+                });
+            });
+        };
+        
+        document.getElementById('cancel-delete-btn').addEventListener('click', () => closeModal(deleteConfirmModal));
+
+        addPackageBtn.addEventListener('click', async () => {
             if (!currentUser) return alert('Faça login como agência para cadastrar pacotes.');
+
+            const { count, error } = await db
+                .from('packages')
+                .select('*', { count: 'exact', head: true })
+                .eq('agency_id', currentUser.id);
+
+            if (error) {
+                return alert('Erro ao verificar seu plano. Tente novamente.');
+            }
+
+            // Assumindo que o plano FREE (Bronze) é o padrão e não há uma coluna de plano
+            if (count >= 1) {
+                return alert('Você atingiu o limite de 1 pacote para o plano gratuito. Faça o upgrade para cadastrar mais!');
+            }
+
             packageForm.reset();
             packageForm.id.value = '';
             document.getElementById('package-modal-title').textContent = 'Cadastrar Novo Pacote';
@@ -826,8 +958,8 @@
             // Lógica de Upload da Imagem
             if (imageFile && imageFile.size > 0) {
                 const fileExt = imageFile.name.split('.').pop();
-                const fileName = `${Math.random()}.${fileExt}`;
-                const filePath = `${fileName}`;
+                const fileName = `${Date.now()}.${fileExt}`;
+                const filePath = `${currentUser.id}/${fileName}`;
                 
                 let { error: uploadError } = await db.storage.from('package-images').upload(filePath, imageFile);
                 if (uploadError) {
@@ -841,7 +973,9 @@
             
             let error;
             if (packageData.id) { // Editando
-                ({ error } = await db.from('packages').update(packageData).eq('id', packageData.id));
+                const idToUpdate = packageData.id;
+                delete packageData.id;
+                ({ error } = await db.from('packages').update(packageData).eq('id', idToUpdate));
             } else { // Criando
                 delete packageData.id;
                 packageData.agency_id = currentUser.id;
