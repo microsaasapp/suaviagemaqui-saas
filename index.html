@@ -5,22 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SuaViagemaqui - Sua Próxima Viagem Começa Aqui</title>
     
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Supabase and Stripe JS Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://js.stripe.com/v3/"></script>
     
-    <!-- Custom Styles -->
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; }
         .hero-bg { background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://placehold.co/1920x600/0033A0/FFFFFF?text=Imagem+de+Destino'); background-size: cover; background-position: center; }
@@ -55,7 +50,6 @@
 </head>
 <body class="text-gray-800">
 
-    <!-- Cabeçalho -->
     <header class="bg-white shadow-md sticky top-0 z-40">
         <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
             <a href="#" class="flex items-center gap-2 text-3xl font-extrabold text-blue-800">
@@ -80,7 +74,6 @@
         </nav>
     </header>
 
-    <!-- Seção Hero com a Busca -->
     <section class="hero-bg h-96 flex items-center justify-center">
         <div class="container mx-auto px-4 sm:px-6 text-center">
             <div class="bg-white/10 backdrop-blur-sm p-8 rounded-xl max-w-4xl mx-auto">
@@ -103,10 +96,8 @@
         </div>
     </section>
 
-    <!-- Conteúdo Principal -->
     <main class="container mx-auto p-4 sm:p-6">
 
-        <!-- Abas de Navegação -->
         <div class="mb-8 bg-white rounded-lg shadow-md mt-8">
             <nav class="flex space-x-2 sm:space-x-6 justify-center p-2" aria-label="Tabs">
                 <button id="tab-excursions" data-tab="excursions" class="tab-button active flex-1 text-center whitespace-nowrap py-4 px-1 border-b-4 font-medium text-sm sm:text-base">
@@ -121,22 +112,17 @@
             </nav>
         </div>
 
-        <!-- Conteúdo das Abas -->
         <div id="tab-content">
-            <!-- Aba 1: Excursões, Agências PRO e Ofertas -->
             <div id="content-excursions" class="tab-content-panel">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">Excursões em Destaque</h2>
                 <div id="packages-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <!-- Os pacotes do banco de dados serão inseridos aqui pelo JavaScript -->
                     <p>Carregando excursões...</p>
                 </div>
 
-                <!-- Seção de Agências Premium -->
                 <section class="mt-16">
                     <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Agências Premium em Destaque</h2>
                     <p class="text-center text-gray-600 mb-8">Confira as agências que oferecem as melhores experiências na nossa plataforma.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <!-- Janela Agência 1 -->
                         <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
                             <div class="h-40 bg-cover bg-center" style="background-image: url('https://placehold.co/500x300/1d4ed8/ffffff?text=Aventura+Tour')"></div>
                             <div class="p-6 text-center">
@@ -145,7 +131,6 @@
                                 <button class="mt-4 bg-cvc-blue text-white font-bold py-2 px-6 rounded-full hover:bg-cvc-blue-dark transition duration-300">Ver Pacotes</button>
                             </div>
                         </div>
-                        <!-- Janela Agência 2 -->
                         <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
                             <div class="h-40 bg-cover bg-center" style="background-image: url('https://placehold.co/500x300/059669/ffffff?text=PraiaTur')"></div>
                             <div class="p-6 text-center">
@@ -154,7 +139,6 @@
                                 <button class="mt-4 bg-cvc-blue text-white font-bold py-2 px-6 rounded-full hover:bg-cvc-blue-dark transition duration-300">Ver Pacotes</button>
                             </div>
                         </div>
-                        <!-- Janela Agência 3 -->
                         <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
                             <div class="h-40 bg-cover bg-center" style="background-image: url('https://placehold.co/500x300/7c3aed/ffffff?text=Trip+da+Serra')"></div>
                             <div class="p-6 text-center">
@@ -163,7 +147,6 @@
                                 <button class="mt-4 bg-cvc-blue text-white font-bold py-2 px-6 rounded-full hover:bg-cvc-blue-dark transition duration-300">Ver Pacotes</button>
                             </div>
                         </div>
-                        <!-- Janela Agência 4 -->
                         <div class="bg-white rounded-lg shadow-lg overflow-hidden group transform hover:-translate-y-2 transition-transform duration-300">
                             <div class="h-40 bg-cover bg-center" style="background-image: url('https://placehold.co/500x300/db2777/ffffff?text=Eco+Viagens')"></div>
                             <div class="p-6 text-center">
@@ -175,7 +158,6 @@
                     </div>
                 </section>
 
-                <!-- Banner de Cadastro para Agências -->
                 <section id="agency-signup-banner" class="mt-16 bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center justify-between">
                     <div>
                         <h2 class="text-3xl font-extrabold">É uma agência de turismo?</h2>
@@ -187,14 +169,11 @@
                 </section>
             </div>
 
-            <!-- Aba 2: Painel da Agência -->
             <div id="content-agencies" class="tab-content-panel hidden bg-white p-6 rounded-lg shadow-md">
                  <div id="agency-dashboard-logged-out" class="text-center">
                     <h2 class="text-2xl font-bold mb-4">Planos para sua Agência Crescer</h2>
                     <p class="text-gray-600 mb-8">Escolha o plano ideal e comece a vender mais.</p>
-                    <!-- Tabela de Preços -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                        <!-- Plano Bronze (Free) -->
                         <div class="border rounded-lg p-6 flex flex-col">
                             <h3 class="text-xl font-bold text-gray-500">Bronze</h3>
                             <p class="text-4xl font-extrabold my-4">Grátis</p>
@@ -205,7 +184,6 @@
                             </ul>
                             <button class="mt-6 bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300">Comece Agora</button>
                         </div>
-                        <!-- Plano Prata (Básico) -->
                         <div class="border-2 border-blue-600 rounded-lg p-6 flex flex-col relative">
                             <p class="absolute top-0 -translate-y-1/2 bg-blue-600 text-white text-sm font-bold px-3 py-1 rounded-full">MAIS POPULAR</p>
                             <h3 class="text-xl font-bold text-blue-600">Prata</h3>
@@ -217,7 +195,6 @@
                             </ul>
                             <button class="mt-6 bg-cvc-blue text-white font-bold py-2 px-4 rounded-lg hover:bg-cvc-blue-dark">Assinar Agora</button>
                         </div>
-                        <!-- Plano Ouro (Pro) -->
                         <div class="border rounded-lg p-6 flex flex-col">
                             <h3 class="text-xl font-bold text-yellow-500">Ouro</h3>
                             <p class="text-4xl font-extrabold my-4">R$ 99<span class="text-lg font-medium">/mês</span></p>
@@ -231,7 +208,6 @@
                     </div>
                  </div>
                  <div id="agency-dashboard-logged-in" class="hidden">
-                    <!-- Aviso do Plano Free com Countdown -->
                     <div id="plan-notice" class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-8">
                         <div class="flex">
                             <div class="py-1"><i class="fa-solid fa-info-circle mr-3 text-2xl"></i></div>
@@ -242,7 +218,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Gerenciamento de Excursões -->
                     <div class="mt-10">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
                             <h3 class="text-2xl font-bold">Seus Pacotes Cadastrados</h3>
@@ -259,22 +234,19 @@
                                     </tr>
                                 </thead>
                                 <tbody id="agency-packages-list">
-                                    <!-- Pacotes da agência logada serão inseridos aqui -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
                  </div>
             </div>
             
-            <!-- Aba 3: Parceiros -->
             <div id="content-partners" class="tab-content-panel hidden bg-white p-8 rounded-lg shadow-md">
                 <div class="text-center mb-10">
                      <h2 class="text-3xl font-bold text-gray-800">Tudo para sua Viagem</h2>
                      <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Confira as ofertas dos nossos parceiros para uma experiência completa.</p>
                 </div>
                 
-                <!-- Campo de Busca de Parceiros -->
                 <div class="max-w-xl mx-auto mb-10">
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -285,36 +257,31 @@
                 </div>
 
                 <div id="partners-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-                    <!-- Banner Hotéis -->
                     <a href="#" data-partner-name="hotéis pousadas hotel pousada" class="block group rounded-lg overflow-hidden shadow-lg relative">
                         <img src="https://placehold.co/400x500/0ea5e9/ffffff?text=Hotéis" alt="Banner de hotéis" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
                             <h3 class="text-white text-2xl font-bold">Hotéis e Pousadas</h3>
                         </div>
                     </a>
-                    <!-- Banner Seguro Viagem -->
-                     <a href="#" data-partner-name="seguro viagem segurança" class="block group rounded-lg overflow-hidden shadow-lg relative">
+                    <a href="#" data-partner-name="seguro viagem segurança" class="block group rounded-lg overflow-hidden shadow-lg relative">
                         <img src="https://placehold.co/400x500/22c55e/ffffff?text=Seguro+Viagem" alt="Banner de seguro viagem" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
                             <h3 class="text-white text-2xl font-bold">Seguro Viagem</h3>
                         </div>
                     </a>
-                    <!-- Banner Rent a Car -->
-                     <a href="#" data-partner-name="aluguel de carro rent a car veículo" class="block group rounded-lg overflow-hidden shadow-lg relative">
+                    <a href="#" data-partner-name="aluguel de carro rent a car veículo" class="block group rounded-lg overflow-hidden shadow-lg relative">
                         <img src="https://placehold.co/400x500/f97316/ffffff?text=Aluguel+de+Carro" alt="Banner de aluguel de carro" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
                             <h3 class="text-white text-2xl font-bold">Aluguel de Carro</h3>
                         </div>
                     </a>
-                    <!-- Banner Mochilas -->
-                     <a href="#" data-partner-name="mochilas equipamentos mala" class="block group rounded-lg overflow-hidden shadow-lg relative">
+                    <a href="#" data-partner-name="mochilas equipamentos mala" class="block group rounded-lg overflow-hidden shadow-lg relative">
                         <img src="https://placehold.co/400x500/8b5cf6/ffffff?text=Mochilas" alt="Banner de mochilas e equipamentos" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
                             <h3 class="text-white text-2xl font-bold">Mochilas e Equip.</h3>
                         </div>
                     </a>
-                    <!-- Banner Camping -->
-                     <a href="#" data-partner-name="camping barraca acampamento" class="block group rounded-lg overflow-hidden shadow-lg relative">
+                    <a href="#" data-partner-name="camping barraca acampamento" class="block group rounded-lg overflow-hidden shadow-lg relative">
                         <img src="https://placehold.co/400x500/64748b/ffffff?text=Camping" alt="Banner de artigos de camping" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
                             <h3 class="text-white text-2xl font-bold">Artigos de Camping</h3>
@@ -325,12 +292,10 @@
         </div>
     </main>
 
-    <!-- Seção de Parceiros Premium -->
     <section class="bg-white py-12 mt-16">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Nossos Parceiros Premium (Plano Ouro)</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Categoria Hotéis -->
                 <div>
                     <h3 class="text-xl font-semibold mb-4 text-center"><i class="fa-solid fa-hotel mr-2 text-blue-500"></i>Hotéis</h3>
                     <div class="partner-carousel h-24 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden relative p-2">
@@ -339,7 +304,6 @@
                         <img src="https://placehold.co/150x60/7c3aed/ffffff?text=Resort+Paraíso" alt="Logo Resort Paraíso" class="partner-logo absolute transition-opacity duration-700 opacity-0">
                     </div>
                 </div>
-                <!-- Categoria Restaurantes -->
                 <div>
                      <h3 class="text-xl font-semibold mb-4 text-center"><i class="fa-solid fa-utensils mr-2 text-orange-500"></i>Restaurantes</h3>
                      <div class="partner-carousel h-24 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden relative p-2">
@@ -347,7 +311,6 @@
                         <img src="https://placehold.co/150x60/f97316/ffffff?text=Sabor+do+Mar" alt="Logo Sabor do Mar" class="partner-logo absolute transition-opacity duration-700 opacity-0">
                      </div>
                 </div>
-                <!-- Categoria Lojas -->
                 <div>
                      <h3 class="text-xl font-semibold mb-4 text-center"><i class="fa-solid fa-store mr-2 text-purple-500"></i>Lojas e Acessórios</h3>
                      <div class="partner-carousel h-24 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden relative p-2">
@@ -355,7 +318,6 @@
                         <img src="https://placehold.co/150x60/be123c/ffffff?text=Mochila+Certa" alt="Logo Mochila Certa" class="partner-logo absolute transition-opacity duration-700 opacity-0">
                      </div>
                 </div>
-                <!-- Categoria Fotógrafos -->
                 <div>
                      <h3 class="text-xl font-semibold mb-4 text-center"><i class="fa-solid fa-camera-retro mr-2 text-teal-500"></i>Fotógrafos</h3>
                      <div class="partner-carousel h-24 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden relative p-2">
@@ -366,7 +328,6 @@
         </div>
     </section>
 
-    <!-- Rodapé -->
     <footer class="bg-gray-800 text-white">
         <div class="container mx-auto px-6 py-10">
             <div class="text-center mb-6">
@@ -385,9 +346,6 @@
         </div>
     </footer>
 
-    <!-- MODALS (Hidden by default) -->
-    
-    <!-- Modal de Login/Cadastro -->
     <div id="auth-modal" class="modal-backdrop hidden">
         <div class="bg-white w-full max-w-md p-8 rounded-lg shadow-xl relative">
             <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-gray-800"><i class="fa-solid fa-xmark text-2xl"></i></button>
@@ -411,7 +369,6 @@
                         <span class="ml-2 text-sm text-gray-600">Quero me cadastrar como agência</span>
                     </label>
                 </div>
-                <!-- Campo de Aceite dos Termos -->
                 <div id="terms-agreement-field" class="mb-6 hidden">
                      <label class="flex items-center">
                         <input type="checkbox" id="terms-agree-checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm">
@@ -427,7 +384,6 @@
         </div>
     </div>
 
-    <!-- Modal do Contrato -->
     <div id="contract-modal" class="modal-backdrop hidden">
         <div class="bg-white w-full max-w-3xl p-8 rounded-lg shadow-xl modal-content relative">
             <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-gray-800"><i class="fa-solid fa-xmark text-2xl"></i></button>
@@ -459,19 +415,15 @@
         </div>
     </div>
 
-    <!-- Modal de Detalhes do Pacote -->
     <div id="package-detail-modal" class="modal-backdrop hidden">
         <div class="bg-white w-full max-w-4xl rounded-lg shadow-xl modal-content">
             <div id="package-detail-content">
-                <!-- Conteúdo dinâmico do pacote será inserido aqui -->
-            </div>
+                </div>
         </div>
     </div>
 
-    <!-- Modal de Cadastro/Edição de Pacote -->
-    <div id="package-modal" class="modal-backdrop hidden"><div class="bg-white w-full max-w-3xl p-8 rounded-lg shadow-xl modal-content"><h2 id="package-modal-title" class="text-2xl font-bold mb-6">Cadastrar Novo Pacote</h2><form id="package-form"><input type="hidden" name="id"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Nome do Pacote</label><input type="text" name="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Preço por Pessoa (R$)</label><input type="number" name="price" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Vagas Totais</label><input type="number" name="total_slots" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Data de Início</label><input type="date" name="start_date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div><label class="block text-sm font-medium text-gray-700">Horário de Início</label><input type="time" name="start_time" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Local de Embarque</label><input type="text" name="boarding_location" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Documentos Necessários</label><textarea name="required_documents" rows="2" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Mais Informações</label><textarea name="additional_info" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">URL da Imagem Principal</label><input type="text" name="image_url" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="https://placehold.co/..."></div></div><div class="mt-8 flex justify-end gap-4"><button type="button" class="modal-close-btn px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button><button type="submit" class="px-6 py-2 bg-cvc-blue text-white font-bold rounded-lg hover:bg-cvc-blue-dark">Salvar Pacote</button></div></form></div></div>
+    <div id="package-modal" class="modal-backdrop hidden"><div class="bg-white w-full max-w-3xl p-8 rounded-lg shadow-xl modal-content"><h2 id="package-modal-title" class="text-2xl font-bold mb-6">Cadastrar Novo Pacote</h2><form id="package-form"><input type="hidden" name="id"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Nome do Pacote</label><input type="text" name="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Preço por Pessoa (R$)</label><input type="number" name="price" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Vagas Totais</label><input type="number" name="total_slots" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div><div><label class="block text-sm font-medium text-gray-700">Data de Início</label><input type="date" name="start_date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div><label class="block text-sm font-medium text-gray-700">Horário de Início</label><input type="time" name="start_time" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Local de Embarque</label><input type="text" name="boarding_location" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Documentos Necessários</label><textarea name="required_documents" rows="2" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Mais Informações</label><textarea name="additional_info" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea></div><div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">Imagem Principal</label><input type="file" name="image_file" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"></div></div><div class="mt-8 flex justify-end gap-4"><button type="button" class="modal-close-btn px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button><button type="submit" class="px-6 py-2 bg-cvc-blue text-white font-bold rounded-lg hover:bg-cvc-blue-dark">Salvar Pacote</button></div></form></div></div>
 
-    <!-- Modal de Checkout -->
     <div id="checkout-modal" class="modal-backdrop hidden"><div class="bg-white w-full max-w-lg p-8 rounded-lg shadow-xl modal-content"><h2 class="text-2xl font-bold mb-6">Finalizar Reserva</h2><div id="checkout-summary"></div><p class="text-xs text-gray-500 mt-4 text-center">O pagamento é processado de forma segura pelo Stripe. Ao clicar em "Pagar com Cartão", você será redirecionado.</p><div class="mt-8 flex justify-end gap-4"><button type="button" class="modal-close-btn px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button><button id="pay-btn" class="px-6 py-2 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600">Pagar com Cartão</button></div></div></div>
 
     <script>
@@ -816,6 +768,23 @@
 
             const formData = new FormData(e.target);
             const packageData = Object.fromEntries(formData.entries());
+            const imageFile = formData.get('image_file');
+
+            // Lógica de Upload da Imagem
+            if (imageFile && imageFile.size > 0) {
+                const fileExt = imageFile.name.split('.').pop();
+                const fileName = `${Math.random()}.${fileExt}`;
+                const filePath = `${fileName}`;
+                
+                let { error: uploadError } = await db.storage.from('package-images').upload(filePath, imageFile);
+                if (uploadError) {
+                    return alert('Erro ao fazer upload da imagem: ' + uploadError.message);
+                }
+                
+                const { data: { publicUrl } } = db.storage.from('package-images').getPublicUrl(filePath);
+                packageData.image_url = publicUrl;
+            }
+            delete packageData.image_file; // Remove o campo do arquivo antes de salvar no DB
             
             let error;
             if (packageData.id) { // Editando
