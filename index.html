@@ -231,6 +231,12 @@
                     </div>
                  </div>
                  <div id="agency-dashboard-logged-in" class="hidden">
+                    <!-- Aviso para completar perfil -->
+                    <div id="complete-profile-notice" class="hidden bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6" role="alert">
+                      <p class="font-bold">Perfil Incompleto!</p>
+                      <p>Para começar a vender, por favor, complete o cadastro da sua agência.</p>
+                      <button id="complete-profile-btn" class="mt-2 bg-yellow-500 text-white font-bold py-1 px-3 rounded text-sm hover:bg-yellow-600">Completar Perfil Agora</button>
+                    </div>
                     <!-- Aviso do Plano Free com Countdown -->
                     <div id="plan-notice" class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-8">
                         <div class="flex">
@@ -394,18 +400,22 @@
             <h2 id="auth-modal-title" class="text-2xl font-bold text-center mb-6">Acessar Painel</h2>
             <form id="auth-form">
                 <div id="fullname-field" class="mb-4 hidden">
-                    <label for="full_name" class="block text-sm font-medium text-gray-700">Nome Completo</label>
+                    <label class="block text-sm font-medium text-gray-700">Nome Completo</label>
                     <input type="text" name="full_name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm">
                 </div>
                 <div class="mb-4">
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <label class="block text-sm font-medium text-gray-700">Email</label>
                     <input type="email" name="email" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm" required>
                 </div>
                 <div class="mb-6">
-                    <label for="password" class="block text-sm font-medium text-gray-700">Senha (mínimo 6 caracteres)</label>
+                    <label class="block text-sm font-medium text-gray-700">Senha (mínimo 6 caracteres)</label>
                     <input type="password" name="password" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm" required>
                 </div>
                 <div id="agency-toggle-field" class="mb-4 hidden">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">WhatsApp (com DDD, somente números)</label>
+                        <input type="tel" name="contact_whatsapp" placeholder="5511999998888" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm">
+                    </div>
                     <label class="flex items-center">
                         <input type="checkbox" id="is-agency-checkbox" name="is_agency" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                         <span class="ml-2 text-sm text-gray-600">Quero me cadastrar como agência</span>
@@ -496,6 +506,50 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal de Perfil da Agência -->
+    <div id="profile-modal" class="modal-backdrop hidden">
+        <div class="bg-white w-full max-w-4xl p-8 rounded-lg shadow-xl modal-content">
+            <h2 class="text-2xl font-bold mb-6">Complete o Perfil da sua Agência</h2>
+            <form id="profile-form">
+                <!-- Dados da Empresa -->
+                <div class="mb-6 p-4 border rounded-lg">
+                    <h3 class="text-lg font-semibold mb-2 border-b pb-2">1. Dados da Empresa</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div><label class="block text-sm">Razão Social</label><input type="text" name="company_name" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">Nome Fantasia</label><input type="text" name="trade_name" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">CNPJ</label><input type="text" name="cnpj" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                    </div>
+                </div>
+                <!-- Endereço -->
+                <div class="mb-6 p-4 border rounded-lg">
+                    <h3 class="text-lg font-semibold mb-2 border-b pb-2">2. Endereço Comercial</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                        <div class="md:col-span-2"><label class="block text-sm">Logradouro</label><input type="text" name="address_street" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">Número</label><input type="text" name="address_number" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">Complemento</label><input type="text" name="address_complement" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">Bairro</label><input type="text" name="address_neighborhood" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">Cidade</label><input type="text" name="address_city" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">Estado (UF)</label><input type="text" name="address_state" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">CEP</label><input type="text" name="address_zip" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                    </div>
+                </div>
+                <!-- Contatos -->
+                <div class="mb-6 p-4 border rounded-lg">
+                    <h3 class="text-lg font-semibold mb-2 border-b pb-2">3. Contatos</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        <div><label class="block text-sm">WhatsApp (para reservas)</label><input type="tel" name="contact_whatsapp" placeholder="5511999998888" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">Site</label><input type="url" name="website" placeholder="https://..." class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">Instagram</label><input type="text" name="social_instagram" placeholder="@seuinstagram" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                        <div><label class="block text-sm">Facebook</label><input type="text" name="social_facebook" placeholder="facebook.com/suapagina" class="mt-1 w-full border-gray-300 rounded-md shadow-sm"></div>
+                    </div>
+                </div>
+                <div class="mt-8 flex justify-end gap-4">
+                    <button type="submit" class="px-8 py-3 bg-cvc-blue text-white font-bold rounded-lg hover:bg-cvc-blue-dark">Salvar Perfil</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
 
     <script>
@@ -528,6 +582,7 @@
         const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
 
         let currentUser = null;
+        let userProfile = null;
         let isLoginMode = true; // Controla se o modal de auth está em modo Login ou Cadastro
         let allPackages = []; // Cache para todos os pacotes
         let agencyPackages = []; // Cache para pacotes da agência logada
@@ -563,6 +618,10 @@
         const countdownTimerEl = document.getElementById('countdown-timer');
         const deleteConfirmModal = document.getElementById('delete-confirm-modal');
         const statsModal = document.getElementById('stats-modal');
+        const profileModal = document.getElementById('profile-modal');
+        const profileForm = document.getElementById('profile-form');
+        const completeProfileNotice = document.getElementById('complete-profile-notice');
+        const completeProfileBtn = document.getElementById('complete-profile-btn');
         let currentPackageForCheckout = null;
 
         // --- FUNÇÕES GERAIS ---
@@ -598,18 +657,24 @@
             return `${day}/${month}/${year}`;
         };
 
-        // --- LÓGICA DE AUTENTICAÇÃO ---
+        // --- LÓGICA DE AUTENTICAÇÃO E PERFIL ---
         const checkUser = async () => {
             const { data: { session } } = await db.auth.getSession();
             currentUser = session?.user || null;
-            updateUIBasedOnAuthState();
             if (currentUser) {
-                const { data: profile } = await db.from('profiles').select('is_agency').eq('id', currentUser.id).single();
+                const { data: profile } = await db.from('profiles').select('*').eq('id', currentUser.id).single();
+                userProfile = profile;
                 if (profile?.is_agency) {
                     initializeCountdown(currentUser);
+                    if (!profile.profile_complete) {
+                        completeProfileNotice.classList.remove('hidden');
+                        addPackageBtn.disabled = true;
+                        addPackageBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    }
                 }
                 fetchAgencyPackages();
             }
+            updateUIBasedOnAuthState();
         };
 
         const updateUIBasedOnAuthState = () => {
@@ -681,6 +746,7 @@
             const formData = new FormData(e.target);
             const email = formData.get('email');
             const password = formData.get('password');
+            const contact_whatsapp = formData.get('contact_whatsapp');
 
             if (isLoginMode) {
                 const { error } = await db.auth.signInWithPassword({ email, password });
@@ -695,7 +761,8 @@
                     options: {
                         data: {
                             full_name: fullName,
-                            is_agency: isAgency
+                            is_agency: isAgency,
+                            contact_whatsapp: contact_whatsapp
                         }
                     }
                 });
@@ -712,6 +779,30 @@
              checkAgencySignupState();
              openModal(authModal);
         });
+        
+        completeProfileBtn.addEventListener('click', () => {
+            Object.keys(userProfile).forEach(key => {
+                if (profileForm.elements[key]) {
+                    profileForm.elements[key].value = userProfile[key];
+                }
+            });
+            openModal(profileModal);
+        });
+        
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const profileData = Object.fromEntries(formData.entries());
+            profileData.profile_complete = true; // Marca o perfil como completo
+
+            const { error } = await db.from('profiles').update(profileData).eq('id', currentUser.id);
+            if(error) return alert('Erro ao salvar perfil: ' + error.message);
+
+            alert('Perfil salvo com sucesso!');
+            closeModal(profileModal);
+            location.reload();
+        });
+
 
         // --- LÓGICA DE PACOTES ---
         const fetchAllPackages = async () => {
